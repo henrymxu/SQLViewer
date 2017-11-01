@@ -95,9 +95,12 @@ public class TableView extends JPanel {
 		public void mouseClicked(MouseEvent e) {
 			int col = jTable.columnAtPoint(e.getPoint());
 			String name = jTable.getColumnName(col);
-			System.out.println("Column index selected " + col + " " + name);
-			columnSelectedCallback.tableColumnSelected(name);
-			TableView.this.grabFocus();
+			System.out.println("Column index " + col + " " + name);
+			if (columnSelectedCallback.tableColumnSelected(name)) {
+				TableView.this.grabFocus();
+			} else {
+				tableModel.sortTableData(col);
+			}
 		}
 	};
 	

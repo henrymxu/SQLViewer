@@ -2,6 +2,7 @@ package src.main.java.com.henryxu.SQLViewer.SQLDatabaseUtils;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,6 +73,41 @@ public class SQLTableData {
 			index++;
 		}
 		setDisplayedData(matchingData);
+	}
+	
+	public void sortTableData (int index) {
+		boolean isSortedGreater = true;
+		boolean isSortedLesser = true;
+		boolean isNumeric = SQLUtils.isColumnTypeNumeric(columnTypes[index]);
+		for (int j = 0; j < displayData.length - 1; j++) {
+			if (isNumeric) {
+				isSortedGreater = isSortedGreater & Double.parseDouble(displayData[j][index]) <= Double.parseDouble(displayData[j+1][index]);
+				isSortedLesser = isSortedLesser & Double.parseDouble(displayData[j][index]) >= Double.parseDouble(displayData[j+1][index]);
+			} else {
+				isSortedGreater = isSortedGreater & displayData[j][index].toLowerCase().compareTo(displayData[j+1][index].toLowerCase()) <= 0; 
+				isSortedLesser = isSortedLesser & displayData[j][index].toLowerCase().compareTo(displayData[j+1][index].toLowerCase()) >= 0;
+			}
+		}
+		String [][] sortedData = displayData;
+		for (int i = 0; i < sortedData.length; i++) {
+			for (int j = 0; j < sortedData.length - 1; j++) {
+					if (isNumeric) {
+						if (SQLUtils.sortNumeric(Double.parseDouble(displayData[j][index]), Double.parseDouble(displayData[j+1][index]), isSortedGreater, isSortedLesser)) {
+							String[] tempRow = sortedData[j];
+							sortedData[j] = sortedData[j+1];
+							sortedData[j+1] = tempRow;
+						}
+					} else {
+						//if (sortedData[j][index].toLowerCase().compareTo(sortedData[j+1][index].toLowerCase()) > 0) {
+						if (SQLUtils.sortString(sortedData[j][index], sortedData[j+1][index], isSortedGreater, isSortedLesser)) {
+							String[] tempRow = sortedData[j];
+							sortedData[j] = sortedData[j+1];
+							sortedData[j+1] = tempRow;
+						}
+					}
+				}
+			}
+		setDisplayedData(sortedData);
 	}
 	
 	public void logData () {

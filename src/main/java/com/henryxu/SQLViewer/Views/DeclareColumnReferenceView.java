@@ -145,10 +145,12 @@ public class DeclareColumnReferenceView extends JPanel {
 	
 	private ColumnReferenceSelectedListener columnSelectedListener = new ColumnReferenceSelectedListener () {
 		@Override
-		public void tableColumnSelected(String columnName) {
+		public boolean tableColumnSelected(String columnName) {
 			if (focusedField != null) {
 				focusedField.setText(columnName);
+				return true;
 			}
+			return false;
 		}
 	};
 	

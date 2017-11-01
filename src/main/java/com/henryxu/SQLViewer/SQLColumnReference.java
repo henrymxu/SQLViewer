@@ -12,7 +12,6 @@ public class SQLColumnReference {
 	
 	public SQLColumnReference () {
 		this.instruction = "Replace";
-		initTest();
 	}
 	
 	public void setReferenceColumn (String refTableName, String idColumn, String refColumn) {
@@ -21,11 +20,6 @@ public class SQLColumnReference {
 	
 	public void setTargetColumn (String targetTableName, String targetColumn) {
 		targetData = new String[] {targetTableName, targetColumn};
-	}
-	
-	private void initTest () {
-		targetData = new String[] {"constructorstandings", "constructorId"};
-		referenceData = new String[] {"constructors", "constructorId", "name"};
 	}
 	
 	public SQLTableData[] acreateReferences (SQLTableData[] tableData) {

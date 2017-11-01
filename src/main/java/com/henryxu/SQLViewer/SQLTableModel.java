@@ -19,6 +19,11 @@ public class SQLTableModel extends AbstractTableModel {
 		tableData.searchTableData(text);
 		this.fireTableDataChanged();
 	}
+	
+	public void sortTableData (int columnIndex) {
+		tableData.sortTableData(columnIndex);
+		this.fireTableDataChanged();
+	}
 
 	public String getTableName () {
 		return tableData.getTableName();
